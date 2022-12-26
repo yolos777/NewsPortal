@@ -37,6 +37,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    #установлено в рамках проекта
     'NewsPortal',
     'django.contrib.sites',
     'django.contrib.flatpages',
@@ -53,6 +54,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    # установлено в рамках проекта
     'django.contrib.flatpages.middleware.FlatpageFallbackMiddleware',
 ]
 

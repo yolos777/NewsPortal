@@ -1,13 +1,25 @@
 <!--  наследуемся от шаблона default.html, который мы создавали для flatpages -->
 {% extends 'flatpages/default.html' %}
 
-<!-- Название у нас будет products -->
+{% load custom_filters %}
+
 {% block title %}
 Content
 {% endblock title %}
 
 <!-- В контенте на странице мы выводим все товары -->
 {% block content %}
-<h1>Весь контент</h1>
-{{ content }}
+<h1>Все публикации</h1>
+    <h2> ({{ posts|length }}) </h2>
+    <hr>
+    {% for post in posts %}
+        <h2>
+                <a href="{% url 'post_detailed' post.pk %}">
+                lign="left"> {{ post.headline }}
+                </a>
+        </h2>
+        <p align="left"><i> Дата: </i><i> {{ post.post_time }} </i></p>
+        <p align="left"><i> Автор: </i><i> {{ post.author.author_name }} </i><i> | Категория:</i><i> {{ post.categories.values }} </i></p>
+        <p align="left"> {{ post.text|truncatechars:20 }} </p>
+    {% endfor %}
 {% endblock content %}

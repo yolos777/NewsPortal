@@ -12,11 +12,14 @@ class Author(models.Model):
     rating = models.IntegerField(default = 0)
 
     def update_rating(self):
-        pass
+       pass
 
 
 class Category(models.Model):
     name = models.CharField(max_length = 255)
+
+    def __str__(self):
+        self.name
 
 
 class Post(models.Model):
@@ -28,16 +31,19 @@ class Post(models.Model):
     text = models.TextField()
     rating = models.IntegerField(default = 0)
 
+    def __str__(self):
+        return f'{self.headline} \n {self.text}'
+
     def like(self):
-        return self.rating + 1
+        self.rating += 1
         self.save()
 
     def dislike(self):
-        return self.rating - 1
+        self.rating -= 1
         self.save()
 
     def preview(self):
-        return self.text[0:125] + '...'
+        return f'{self.headline}. \n {self.text[0:125]}...'
 
 
 class PostCategory(models.Model):
@@ -52,10 +58,13 @@ class Comment(models.Model):
     time = models.DateTimeField(auto_now_add = True)
     rating = models.IntegerField(default = 0)
 
+    def __str__(self):
+        return self.comment
+
     def like(self):
-        return self.rating + 1
+        self.rating += 1
         self.save()
 
     def dislike(self):
-        return self.rating - 1
+        self.rating -= 1
         self.save()

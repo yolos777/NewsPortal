@@ -19,5 +19,5 @@ from django.urls import path, include
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('articles/', include('django.contrib.flatpages.urls')),
-    path('content/', include('NewsPortal.urls')),
+    path('news/', include('NewsPortal.urls')),
 ]

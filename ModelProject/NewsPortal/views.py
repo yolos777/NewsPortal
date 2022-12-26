@@ -3,14 +3,22 @@ from django.views.generic import ListView, DetailView
 from .models import Author, Category, Post, PostCategory, Comment
 
 
-class ContentList(ListView):
+class PostList(ListView):
     model = Post
-    ordering = 'categories'
+    ordering = ['-post_time']
     # queryset = Product.objects.order_by('-name')
     template_name = 'Content.html'
-    context_object_name = 'allnews'
+    context_object_name = 'posts'
 
-class ArticlesDetail(DetailView):
+class PostDetail(DetailView):
     model = Post
-    template_name = 'Articles.html'
-    context_object_name = 'article'
+    template_name = 'Detailed_post.html'
+    context_object_name = 'post'
+
+class CategoryList(ListView):
+    model = Category
+    template_name = 'Categories.html'
+    context_object_name = 'categories'
+    ordering = 'name'
+
+
