@@ -13,13 +13,23 @@ Content
     <h2> ({{ posts|length }}) </h2>
     <hr>
     {% for post in posts %}
-        <h2>
-                <a href="{% url 'post_detailed' post.pk %}">
-                lign="left"> {{ post.headline }}
-                </a>
-        </h2>
+        <h2 align="left"> {{ post.headline }} </h2>
         <p align="left"><i> Дата: </i><i> {{ post.post_time }} </i></p>
         <p align="left"><i> Автор: </i><i> {{ post.author.author_name }} </i><i> | Категория:</i><i> {{ post.categories.values }} </i></p>
         <p align="left"> {{ post.text|truncatechars:20 }} </p>
     {% endfor %}
+
+{# Добавляем пагинацию на страницу #}
+
+   {# Информация о предыдущих страницах #}
+   {% if page_obj.has_previous %}
+       <a href="?page=1">1</a>
+       {% if page_obj.previous_page_number != 1 %}
+           ...
+           <a href="?page={{ page_obj.previous_page_number }}">{{ page_obj.previous_page_number }}</a>
+       {% endif %}
+   {% endif %}
+
+
+
 {% endblock content %}

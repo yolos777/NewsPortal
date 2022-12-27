@@ -9,6 +9,7 @@ class PostList(ListView):
     # queryset = Product.objects.order_by('-name')
     template_name = 'Content.html'
     context_object_name = 'posts'
+    paginate_by = 10
 
 class PostDetail(DetailView):
     model = Post
