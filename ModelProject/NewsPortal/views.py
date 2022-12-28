@@ -1,15 +1,23 @@
 from django.shortcuts import render
 from django.views.generic import ListView, DetailView, CreateView
-from .models import Author, Category, Post, PostCategory, Comment
+from .models import Category, Post
 from .filters import PostFilter
 from .forms import ProductForm
+
+
+class AllNews(ListView):
+    model = Post
+    ordering = ['-post_time']
+    template_name = 'Content.html'
+    context_object_name = 'posts'
+    paginate_by = 10
 
 class PostList(ListView):
     model = Post
     ordering = ['-post_time']
     # queryset = Product.objects.order_by('-name')
-    template_name = 'Content.html'
-    context_object_name = 'posts'
+    template_name = 'post_search.html'
+    context_object_name = 'search'
     paginate_by = 10
 
     def get_queryset(self):
@@ -43,3 +51,6 @@ class PostCreate(CreateView):
     model = Post
     # и новый шаблон, в котором используется форма.
     template_name = 'post_edit.html'
+
+    def form_valid(self):
+        Post.author_name = self.request.user.author.id

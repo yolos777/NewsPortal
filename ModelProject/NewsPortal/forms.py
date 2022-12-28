@@ -1,21 +1,18 @@
 from django import forms
-from .models import Post
-# from django.core.exceptions import ValidationError
+from .models import Post, PostCategory
+
 
 class ProductForm(forms.ModelForm):
-   text = forms.CharField(min_length=20)
+    text = forms.CharField(min_length=20)
 
-   class Meta:
-       model = Post
-       fields = [
-           'author',
-           'news_or_article',
+    class Meta:
+        model = Post
+        fields = [
            'headline',
            'text',
-       ]
+           'categories'
+        ]
 
-   # def clean(self):
-   #     cleaned_data = super().clean()
-   #     text = cleaned_data.get('text')
-   #
-   #     return cleaned_data
+    def get_category(self):
+        self.categories = PostCategory.category
+        return self.categories
