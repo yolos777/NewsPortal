@@ -1,5 +1,6 @@
 from django.contrib.auth.models import User
 from django.db import models
+from django.urls import reverse
 
 article = 'статья'
 news = 'новость'
@@ -19,7 +20,7 @@ class Category(models.Model):
     name = models.CharField(max_length = 255)
 
     def __str__(self):
-        self.name
+        return self.name
 
 
 class Post(models.Model):
@@ -34,6 +35,7 @@ class Post(models.Model):
     def __str__(self):
         return f'{self.headline} \n {self.text}'
 
+
     def like(self):
         self.rating += 1
         self.save()
@@ -44,6 +46,9 @@ class Post(models.Model):
 
     def preview(self):
         return f'{self.headline}. \n {self.text[0:125]}...'
+
+    def get_absolute_url(self):
+        return reverse('post_detail', args=[str(self.id)])
 
 
 class PostCategory(models.Model):

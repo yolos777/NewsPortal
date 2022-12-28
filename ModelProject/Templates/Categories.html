@@ -8,6 +8,11 @@ Categories
 
 <!-- В контенте на странице мы выводим все товары -->
 {% block content %}
-<h1>Категории</h1>
-{{ content }}
+<h1> Категории </h1>
+<hr>
+    {% for category in categories %}
+        <h2 align="center">
+            {{ category.name }}
+        </h2>
+    {% endfor %}
 {% endblock content %}
