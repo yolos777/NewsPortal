@@ -3,7 +3,7 @@ from django.views.generic import ListView, DetailView, CreateView
 from .models import Category, Post
 from .filters import PostFilter
 from .forms import ProductForm
-
+from django.http import HttpRequest
 
 class AllNews(ListView):
     model = Post
@@ -52,5 +52,11 @@ class PostCreate(CreateView):
     # и новый шаблон, в котором используется форма.
     template_name = 'post_edit.html'
 
-    def form_valid(self):
+    def form_valid(self, form):
         Post.author_name = self.request.user.author.id
+        if HttpRequest('http://127.0.0.1:8000/news/'):
+            self.news_or_article = 'новость'
+        elif HttpRequest('http://127.0.0.1:8000/article/'):
+            self.news_or_article = 'статья'
+
+        return super().form_valid(form)
