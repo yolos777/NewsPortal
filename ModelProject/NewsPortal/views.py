@@ -1,8 +1,10 @@
 from django.shortcuts import render
-from django.views.generic import ListView, DetailView, CreateView
+from django.views.generic import ListView, DetailView, CreateView, UpdateView, TemplateView
+from django.contrib.auth.mixins import LoginRequiredMixin
 from .models import Category, Post
 from .filters import PostFilter
 from .forms import ProductForm
+from django.contrib.auth.mixins import PermissionRequiredMixin
 from django.http import HttpRequest
 
 class AllNews(ListView):
@@ -43,20 +45,24 @@ class CategoryList(ListView):
     ordering = 'name'
 
 
-# Добавляем новое представление для создания товаров.
+
 class PostCreate(CreateView):
-    # Указываем нашу разработанную форму
     form_class = ProductForm
-    # модель товаров
     model = Post
-    # и новый шаблон, в котором используется форма.
     template_name = 'post_edit.html'
 
-    def form_valid(self, form):
-        Post.author_name = self.request.user.author.id
-        if HttpRequest('http://127.0.0.1:8000/news/'):
-            self.news_or_article = 'новость'
-        elif HttpRequest('http://127.0.0.1:8000/article/'):
-            self.news_or_article = 'статья'
+    def form_valid(self, request):
+        self.object = ProductForm.save()
+        return super().form_valid(ProductForm)
 
-        return super().form_valid(form)
+class PostUpdate(UpdateView, LoginRequiredMixin, TemplateView):
+    form_class = ProductForm
+    model = Post
+    template_name = 'post_edit.html'
+
+
+class AddPost(PermissionRequiredMixin, PostCreate):
+    permission_required = ('NewsPortal.add_post',
+                           'NewsPortal.delete_post',
+                           'NewsPortal.change_post')
+

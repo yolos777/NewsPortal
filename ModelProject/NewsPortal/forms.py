@@ -1,5 +1,6 @@
 from django import forms
-from .models import Post, PostCategory, Category
+from .models import Post
+
 
 
 class ProductForm(forms.ModelForm):
@@ -12,5 +13,7 @@ class ProductForm(forms.ModelForm):
            'text',
            'categories',
         ]
+
+
 
 
