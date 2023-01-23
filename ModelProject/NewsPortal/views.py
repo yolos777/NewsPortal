@@ -59,7 +59,31 @@ class CategoryList(ListView):
     context_object_name = 'categories'
     ordering = 'name'
 
+class PostCategory(ListView):
+    model = Post
+    template_name = 'test.html'
+    context_object_name = 'cats'
+    ordering = ['-post_time']
 
+    def get_queryset(self):
+        qs = super().get_queryset()
+        return qs.filter(categories=self.kwargs['pk'])
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['name'] = Post.objects.filter(categories=self.kwargs['pk'])
+        return context
+
+    # def get_queryset(self):
+    #     self.id = self.request.path
+    #     c = Category.objects.get(id=self.id)
+    #     queryset = Post.objects.filter(categories=c)
+    #     return queryset
+    #
+    # def get_context_data(self, **kwargs):
+    #     context = super().get_context_data(**kwargs)
+    #     context['name'] = Category.objects.get(id=self.id)
+    #     return context
 
 class PostCreate(CreateView):
     form_class = ProductForm
@@ -77,17 +101,12 @@ class PostCreate(CreateView):
         ...
         return super().form_valid(form)
 
-
         html_content = render_to_string('Subscribers_notify.html')
-
 
         msg = EmailMultiAlternatives(subject=f'{Post.headline}', body=Post.text , from_email='Leemur1504@yandex.ru', to=[User.email])
         msg.attach_alternative(html_content, "Subscribers_notify")
 
         msg.send()
-
-
-
 
 
 class PostUpdate(UpdateView, LoginRequiredMixin, TemplateView):

@@ -1,0 +1,9 @@
+{% extends 'flatpages/default.html' %}
+
+{% block title %} Posts {% endblock %}
+
+{% block content %}
+{% for post in cats %}
+    {{ post.text }}
+{% endfor %}
+{% endblock content %}

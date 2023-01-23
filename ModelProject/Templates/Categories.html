@@ -1,18 +1,15 @@
-<!--  наследуемся от шаблона default.html, который мы создавали для flatpages -->
 {% extends 'flatpages/default.html' %}
 
-<!-- Название у нас будет products -->
 {% block title %}
 Categories
 {% endblock title %}
 
-<!-- В контенте на странице мы выводим все товары -->
 {% block content %}
 <h1> Категории </h1>
 <hr>
     {% for category in categories %}
         <h2 align="center">
-            {{ category.name }}
+            <a href="{% posts/categories/ %}">{{ category.name }}</a>
         </h2>
     {% endfor %}
 {% endblock content %}
