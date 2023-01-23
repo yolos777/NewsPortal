@@ -4,7 +4,7 @@ from django import forms
 
 class PostFilter(FilterSet):
     categories = ModelChoiceFilter(
-        field_name='postcategory_category',
+        field_name='postcategory',
         queryset=Category.objects.all(),
         label='Категория',
         empty_label='любая',

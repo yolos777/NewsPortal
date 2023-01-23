@@ -48,9 +48,10 @@ INSTALLED_APPS = [
     'allauth',
     'allauth.account',
     'allauth.socialaccount',
-    # ... include the providers you want to enable:
     'allauth.socialaccount.providers.google',
 ]
+
+DEFAULT_FROM_EMAIL = 'Leemur1504@yandex.ru'
 
 SITE_ID = 1
 
@@ -141,7 +142,7 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
 LOGIN_URL = '/accounts/login/'
-LOGIN_REDIRECT_URL = '/news/'
+LOGIN_REDIRECT_URL = '/posts/'
 STATIC_URL = 'static/'
 
 # Default primary key field type
@@ -159,3 +160,23 @@ ACCOUNT_USERNAME_REQUIRED = False
 ACCOUNT_AUTHENTICATION_METHOD = 'email'
 ACCOUNT_EMAIL_VERIFICATION = 'none'
 ACCOUNT_FORMS = {'signup': 'sign.models.BasicSignupForm'}
+
+
+EMAIL_HOST = 'smtp.yandex.ru'
+EMAIL_PORT = 465
+EMAIL_HOST_USER = 'Leemur1504'
+EMAIL_HOST_PASSWORD = 'Narukami88'
+EMAIL_USE_SSL = True
+
+CELERY_BROKER_URL = 'redis://default:Z8uSNPYwpxZXEJQplVxZNvNBJY8NOaVJ@redis-18688.c14.us-east-1-3.ec2.cloud.redislabs.com:18688'
+CELERY_RESULT_BACKEND = 'redis://default:Z8uSNPYwpxZXEJQplVxZNvNBJY8NOaVJ@redis-18688.c14.us-east-1-3.ec2.cloud.redislabs.com:18688'
+CELERY_ACCEPT_CONTENT = ['application/json']
+CELERY_TASK_SERIALIZER = 'json'
+CELERY_RESULT_SERIALIZER = 'json'
+
+CACHES = {
+    'default': {
+        'BACKEND': 'django.core.cache.backends.filebased.FileBasedCache',
+        'LOCATION': os.path.join(BASE_DIR, '../cache_files'), # Указываем, куда будем сохранять кэшируемые файлы! Не забываем создать папку cache_files внутри папки с manage.py!
+    }
+}

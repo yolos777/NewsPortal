@@ -12,6 +12,7 @@ class ProductForm(forms.ModelForm):
            'headline',
            'text',
            'categories',
+
         ]
 
 
