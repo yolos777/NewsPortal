@@ -1,0 +1,16 @@
+{% extends 'flatpages/default.html' %}
+
+{% block content %}
+{% if 'news' in request.path %}
+    <h1>Конструктор новостей</h1>
+{% endif %}
+{% if 'articles' in request.path %}
+    <h1>Конструктор статей</h1>
+{% endif %}
+<hr>
+<form action="" method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <input type="submit" value="Save" />
+</form>
+{% endblock content %}
