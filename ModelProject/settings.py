@@ -11,7 +11,6 @@ https://docs.djangoproject.com/en/4.1/ref/settings/
 """
 import os
 from pathlib import Path
-import logging
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -191,10 +190,11 @@ LOGGING = {
         'simple': {'format': '{asctime} {levelname} {message}'},
         'verbose_1': {'format': '{asctime} {levelname} {message} {pathname}'},
         'verbose_2': {'format': '{asctime} {levelname} {message} {pathname} {exc_info}'},
+        'verbose_3': {'format': '{asctime} {levelname} {module} {message}'},
     },
     'filters': {
         'require_debug_true': {'()': 'django.utils.log.RequireDebugTrue'},
-        'require_debug_false': {'()': 'django.utils.log.RequireDebugFalse'}
+        'require_debug_false': {'()': 'django.utils.log.RequireDebugFalse'},
     },
     'handlers': {
         'console': {
@@ -202,11 +202,17 @@ LOGGING = {
             {'level': 'WARNING', 'filters': ['require_debug_true'],'class': 'logging.StreamHandler','formatter': 'verbose_1'},
             {'level': 'ERROR', 'filters': ['require_debug_true'],'class': 'logging.StreamHandler','formatter': 'verbose_2'},
         },
-        'mail_admins': {'level': 'ERROR', 'filters': ['require_debug_false'],'class': 'django.utils.log.AdminEmailHandler', 'formatter': 'verbose_1'}
+        'mail_admins': {'level': 'ERROR', 'filters': ['require_debug_false'],'class': 'django.utils.log.AdminEmailHandler', 'formatter': 'verbose_1'},
+        'general': {'level': 'INFO', 'filters': ['require_debug_false'], 'class': 'logging.FileHandler', 'filename': 'general.log', 'formatter': 'verbose_3'},
+        'errors': {'level': 'ERROR', 'class': 'logging.FileHandler', 'filename': 'errors.log', 'formatter': 'verbose_2'},
+        'security': {'level': 'INFO', 'class': 'logging.FileHandler', 'filename': 'security.log', 'formatter': 'verbose_3'}
     },
     'loggers': {
-        'django': {'handlers': ['console'],'propagate': True},
-        'django.request': {'handlers': ['mail_admins'],'level': 'ERROR','propagate': True},
-        'django_server': {'handlers': ['mail_admins'],'level': 'ERROR','propagate': True}
+        'django': {'handlers': ['console', 'general'],'propagate': True},
+        'django.request': {'handlers': ['mail_admins', 'errors'],'level': 'ERROR','propagate': True},
+        'django.server': {'handlers': ['mail_admins', 'errors'],'propagate': True},
+        'django.template': {'handlers': ['errors'],'level': 'ERROR','propagate': True},
+        'django.db.backends': {'handlers': ['errors'],'level': 'ERROR','propagate': True},
+        'django.security': {'handlers': ['security'],'propagate': True}
     }
 }
